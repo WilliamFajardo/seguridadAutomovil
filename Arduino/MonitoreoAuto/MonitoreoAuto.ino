@@ -4,7 +4,7 @@
 
 const char* ssid     = "PuntoAcces";      // SSID
 const char* password = "123456789";      // Password
-const char* host = "192.168.225.32";  // Dirección IP local o remota, del Servidor Web
+const char* host = "192.168.94.32";  // Dirección IP local o remota, del Servidor Web
 const int   port = 80;            // Puerto, HTTP es 80 por defecto, cambiar si es necesario.
 const int   watchdog = 2000;        // Frecuencia del Watchdog
 
@@ -172,7 +172,7 @@ void displayInfo() {
     delay(2000);
   }
   else {
-    Serial.print(F("INVALID"));
+    Serial.println(F("INVALID"));
   }
 }
 
