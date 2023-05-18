@@ -1,0 +1,22 @@
+REQUERIMIENTO DEL PROYECTO
+Se requiere un sistema que permita a usuarios dueños de vehículos hacer seguimiento de la ubicación de su vehículo y del estado del mismo (apagado, encendido en movimiento, o encendido detenido). 
+El vehículo debe tener un dispositivo que cense la ubicación (y los demás datos del vehículo) y la envíe a una base de datos remota continuamente (cada 10 segundos aprox.).
+
+Para determinar el estado del vehículo, además de la ubicación del vehículo a través de un GPS, el dispositivo debe enviar el estado del motor (que puede ser booleano, 1 encendido, 0 apagado). 
+Si el motor está encendido, el Sistema a través de la información anterior registrada en la base de datos) deberá identificar si hubo movimiento o no del vehículo (comparando la ubicación actual al momento que vaya a grabar en la base de datos y la ubicación inmediatamente anterior, que esté registrada como último dato en la base de datos), determinado esto grabará en la base de datos, además de la ubicación, el estado del vehículo (apagado, encendido en movimiento, o encendido detenido).
+
+El usuario propietario del vehículo (UP) podrá obtener la ubicación en línea de su vehículo en un mapa a través de una aplicación web. 
+Podrá determinar el estado actual del vehículo (en cuál de los 3 estados mencionados se encuentra el vehículo).
+ El estado actual del dispositivo (activo o inactivo).
+Además de la ubicación en línea el usuario propietario podrá determinar las ubicaciones que tuvo su vehículo en determinado periodo de tiempo (ingresando fecha, hora inicial y hora final). 
+Podrá acceder también a un gráfico de barras que indicará el número de registros en el sistema de su vehículo en un rango de tiempo, dividiendo dichos registros en los 3 diferentes estados existentes del vehículo.
+El usuario propietario será creado por el usuario administrador y le será asignado cierto dispositivo de seguimiento. Una vez creado el usuario, este deberá loguearse en el sistema, para poder acceder a la funcionalidad. 
+El dispositivo (HW) que se disponga para realizar el seguimiento, que será manipulado por el usuario propietario, debe indicar mediante un LED rojo si no hay conexión con el Sistema para enviar los datos.
+Cuando haya conexión, la tarjeta debe consultar en la base de datos si el dispositivo está o no activo, en caso de estar inactivo en el sistema, debe encender permanentemente un LED AZUL. En caso de que esté activo, debe encender y apagar el LED AZUL cada vez que envía datos al sistema.
+
+
+El usuario administrador será el encargado de crear usuarios (de tipo administrador o de tipo propietario de vehículo), será encargado de gestionar los dispositivos y asignarlos a cada usuario. 
+Podrá acceder a la ubicación en línea y estado actual de todos los vehículos registrados en el sistema, a través de sus dispositivos asignados.
+Podrá acceder a la ubicación histórica de cualquiera de los vehículos y podrá generar el informe de los estados de cualquier vehículo en un rango de tiempo. 
+El usuario administrador, ejecutando un algoritmo de Machine Learning podrá predecir cual es el estado del vehículo (de los 3 mencionados), para cierta hora de cierto día.
+
