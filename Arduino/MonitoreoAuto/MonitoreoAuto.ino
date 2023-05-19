@@ -4,7 +4,7 @@
 
 const char* ssid     = "PuntoAcces";      // SSID
 const char* password = "123456789";      // Password
-const char* host = "192.168.94.32";  // Dirección IP local o remota, del Servidor Web
+const char* host = "192.168.100.18";  // Dirección IP local o remota, del Servidor Web
 const int   port = 80;            // Puerto, HTTP es 80 por defecto, cambiar si es necesario.
 const int   watchdog = 2000;        // Frecuencia del Watchdog
 
@@ -27,7 +27,7 @@ const int analogInPin = 36; // Puerto Vp analógico del ESP32
 int gpio5_pin = 5; // El GPIO5 de la tarjeta ESP32, corresponde al pin D5 identificado físicamente en la tarjeta. Este pin será utilizado para una salida de un LED.
 int gpio18_pin = 18; // El GPIO5 de la tarjeta ESP32, corresponde al pin D5 identificado físicamente en la tarjeta. Este pin será utilizado para una salida de un LED.
 int idVeh=1;
-int idDis=1;
+int idDis=2;
 
 // The TinyGPSPlus object
 TinyGPSPlus gps;
