@@ -1,0 +1,12 @@
+<?php
+
+
+$host = "localhost";
+
+$user = "id20538731_admin";
+
+$pw = "@Admin1234";
+
+$db = "id20538731_db_monitoreoweb";
+
+?>
