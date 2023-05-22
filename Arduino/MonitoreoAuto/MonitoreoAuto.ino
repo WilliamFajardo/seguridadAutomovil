@@ -3,9 +3,9 @@
 #include <HTTPClient.h>
 
 
-const char* ssid     = "PuntoAcces";      // SSID
-const char* password = "123456789";      // Password
-const char* host = "https://invernaderom.000webhostapp.com/";  // Dirección IP local o remota, del Servidor Web
+const char* ssid     = "FAMILIA FAJARDO";      // SSID
+const char* password = "3105192099";      // Password
+const char* host = "https://invernaderom.000webhostapp.com";  // Dirección IP local o remota, del Servidor Web
 const int   port = 80;            // Puerto, HTTP es 80 por defecto, cambiar si es necesario.
 const int   watchdog = 2000;        // Frecuencia del Watchdog
 
@@ -15,7 +15,8 @@ bool toggle_pressed = false;          //Each time we press the push button
 String data_to_send = "";             //Text data to send to the server
 unsigned int Actual_Millis, Previous_Millis;
 int refresh_time = 200;               //Refresh rate of connection to website (recommended more than 1s)
-
+char* t;
+char* h;
 
 //Inputs/outputs
 int button1 = 13;                     //Connect push button on this pin
@@ -101,8 +102,8 @@ void loop() {
       }
       
       //Begin new connection to website       
-      http.begin("https://invernaderom.000webhostapp.com/programasSERVIDOR_php/interfaces/esp32_update.php");   //Indicate the destination webpage 
-      http.addHeader("Content-Type", "application/x-www-form-urlencoded");         //Prepare the header
+      http.begin("https://invernaderom.000webhostapp.com/programasSERVIDOR_php/interfaces/esp32_update.php");   //Indica la pagina de destino
+      http.addHeader("Content-Type", "application/x-www-form-urlencoded");
       
       int response_code = http.POST(data_to_send);                                //Send the POST. This will giveg us a response code
       
@@ -117,10 +118,12 @@ void loop() {
 
           //If the received data is LED_is_off, we set LOW the LED pin
           if(response_body == "LED_is_off"){
+            t= "Inactivo";
             digitalWrite(LED, HIGH);
           }
           //If the received data is LED_is_on, we set HIGH the LED pin
           else if(response_body == "LED_is_on"){
+            t= "Activo";
             digitalWrite(LED, HIGH);
             delay(500);
             digitalWrite(LED, LOW);
@@ -138,11 +141,6 @@ void loop() {
       Serial.println("WIFI connection error");
     }
   }
-
-  //CONSULTA DE ESTADO DE DISPOSITIVO 
-  String url = "/programasSERVIDOR_php/proceso_eventos/estadoDis.php?idDis=";
-  url += idDis;
-
 
   gpsDataRead = false;
   while (Serial2.available() > 0 && !gpsDataRead) {
@@ -168,11 +166,8 @@ void loop() {
   Serial.println(" V");
   //delay(500); // Esperar 0.5 segundoS antes de volver a leer el sensor
 
-  char* h;
-  int t;
-
   //DETERMINAR EL ESTADO DEL VEHICULO (ENCENDIDO O APAGADO)
-  if(voltaje<1.51){
+  if(voltaje<1.6){
     h = "Apagado";
     Serial.println("Vehiculo apagado");
   }else{
@@ -197,11 +192,8 @@ void loop() {
       return;
     }
     digitalWrite(gpio18_pin, LOW);
-    //digitalWrite(gpio5_pin, LOW);
-    //t = 1;
-    //Serial.print("Dispositivo activo = ");
     
-    String url = "/programasSERVIDOR_php/proceso_eventos/programa1.php?estado_vehiculo=";
+    String url = "programasSERVIDOR_php/proceso_eventos/programa1.php?estado_vehiculo=";
     url += h;
     url += "&estado_dispositivo=";
     url += t;
