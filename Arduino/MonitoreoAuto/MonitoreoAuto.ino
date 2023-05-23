@@ -1,8 +1,7 @@
 #include <WiFi.h>
 #include <TinyGPSPlus.h>
 #include <HTTPClient.h>
-
-
+//===============================================================================================
 const char* ssid     = "FAMILIA FAJARDO";      // SSID
 const char* password = "3105192099";      // Password
 const char* host = "invernaderom.000webhostapp.com";  // Dirección IP local o remota, del Servidor Web
@@ -10,7 +9,7 @@ const int   port = 80;            // Puerto, HTTP es 80 por defecto, cambiar si 
 const int   watchdog = 2000;        // Frecuencia del Watchdog
 
 //Variables used in the code
-String LED_id = "1";                  //Just in case you control more than 1 LED
+                 //Just in case you control more than 1 LED
 bool toggle_pressed = false;          //Each time we press the push button    
 String data_to_send = "";             //Text data to send to the server
 unsigned int Actual_Millis, Previous_Millis;
@@ -19,9 +18,7 @@ char* h;
 int t;
 
 //Inputs/outputs
-int button1 = 13;                     //Connect push button on this pin
-int LED = 2;                          //Connect LED on this pin (add 150ohm resistor)
-
+int LED = 2;                          //Este pin corresponde al led integrado en la ESP32
 
 //Button press interruption
 void IRAM_ATTR isr() {
@@ -44,26 +41,21 @@ String cade;
 String line;
 
 const int analogInPin = 36; // Puerto Vp analógico del ESP32
-int gpio5_pin = 5; // El GPIO5 de la tarjeta ESP32, corresponde al pin D5 identificado físicamente en la tarjeta. Este pin será utilizado para una salida de un LED.
 int gpio18_pin = 18; // El GPIO5 de la tarjeta ESP32, corresponde al pin D5 identificado físicamente en la tarjeta. Este pin será utilizado para una salida de un LED.
 int idVeh=2;
 int idDis=3;
+String LED_id = "2"; 
 
 // The TinyGPSPlus object
 TinyGPSPlus gps;
  
 void setup() {
-  
   delay(10);                  //Start monitor
   pinMode(LED, OUTPUT);                   //Set pin 2 as OUTPUT
-  pinMode(button1, INPUT_PULLDOWN);       //Set pin 13 as INPUT with pulldown
-  attachInterrupt(button1, isr, RISING);  //Create interruption on pin 13
-  pinMode(gpio5_pin, OUTPUT);
   pinMode(gpio18_pin, OUTPUT);
   pinMode(analogInPin, INPUT);
   Serial.begin(9600);
   Serial2.begin(9600);
-  //delay(3000);
   Serial.print("Conectando a...");
   Serial.println(ssid);
   
@@ -85,7 +77,7 @@ void setup() {
 }
 
 void loop() {
-  //We make the refresh loop using millis() so we don't have to sue delay();
+
   Actual_Millis = millis();
   unsigned long currentMillis = millis();
   
@@ -176,9 +168,6 @@ void loop() {
     h = "Encendido";
     Serial.println("Vehiculo encendido");
   }
-
-
-  digitalWrite(gpio5_pin, LOW);
   
   
   if ( currentMillis - previousMillis > watchdog ) {
@@ -229,7 +218,6 @@ void loop() {
       line = client.readStringUntil('\r');
       Serial.print(line);
     }
-     digitalWrite(gpio5_pin, HIGH);
      Serial.println("Dato ENVIADO");
      delay(4000);
 
