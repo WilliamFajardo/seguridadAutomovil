@@ -43,8 +43,8 @@ String line;
 const int analogInPin = 36; // Puerto Vp analógico del ESP32
 int gpio18_pin = 18; // El GPIO5 de la tarjeta ESP32, corresponde al pin D5 identificado físicamente en la tarjeta. Este pin será utilizado para una salida de un LED.
 int idVeh=2;
-int idDis=3;
-String LED_id = "2"; 
+int idDis=1;
+String LED_id = "1"; 
 
 // The TinyGPSPlus object
 TinyGPSPlus gps;
