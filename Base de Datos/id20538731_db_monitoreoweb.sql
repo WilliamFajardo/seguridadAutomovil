@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 24-05-2023 a las 01:46:49
+-- Tiempo de generación: 24-05-2023 a las 20:03:04
 -- Versión del servidor: 10.5.16-MariaDB
 -- Versión de PHP: 7.3.32
 
@@ -156,7 +156,7 @@ INSERT INTO `datos_medidos` (`id`, `idVeh`, `estado_vehiculo`, `idDis`, `estado_
 (486, 2, 'Apagado', 1, '1', 0, 0, '2023-05-23', '06:14:46'),
 (487, 2, 'Apagado', 1, '1', 0, 0, '2023-05-23', '06:14:54'),
 (488, 2, 'Apagado', 1, '0', 0, 0, '2023-05-23', '06:15:01'),
-(489, 2, 'Apagado', 1, '0', 0, 0, '2023-05-23', '06:15:09');
+(489, 2, 'Apagado', 1, '0', 2.44453, -76.6003, '2023-05-23', '06:15:09');
 
 -- --------------------------------------------------------
 
@@ -189,16 +189,16 @@ INSERT INTO `datos_vehiculo` (`id`, `idDis`, `estado_vehiculo`, `latitud`, `long
 
 CREATE TABLE `tipo_usuario` (
   `id` int(11) NOT NULL,
-  `descripcion_tipo` varchar(20) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `descripcion_tipo` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `tipo_usuario`
 --
 
 INSERT INTO `tipo_usuario` (`id`, `descripcion_tipo`) VALUES
-(1, 'administrador'),
-(2, 'propietario');
+(1, 'Administrador'),
+(2, 'Propietario');
 
 -- --------------------------------------------------------
 
@@ -223,9 +223,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre_completo`, `cedula`, `login`, `passwd`, `tipo_usuario`, `estado`, `id_dis`, `id_veh`) VALUES
-(1, 'Jose Zarama', '123456789', '1', 'contraseña123', 1, 1, 0, 'UQI32P'),
-(2, 'Carlos Rodríguez', '987654321', 'mariarodriguez', 'password456', 2, 2, 1, 'LKL62S'),
-(3, 'Pedro Gómez', '456789123', 'pedrogomez', 'abc123', 2, 1, 2, 'ZHY34J');
+(1, 'Jose Zarama', '123456789', 'jjzarama', '827ccb0eea8a706c4c34a16891f84e7b', 1, 1, 0, 'UQI32P'),
+(3, 'Pedro Gómez', '456789123', 'pedrogomez', '827ccb0eea8a706c4c34a16891f84e7b', 2, 1, 2, 'ZHY34J');
 
 --
 -- Índices para tablas volcadas
@@ -272,6 +271,12 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `datos_medidos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=490;
+
+--
+-- AUTO_INCREMENT de la tabla `tipo_usuario`
+--
+ALTER TABLE `tipo_usuario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
