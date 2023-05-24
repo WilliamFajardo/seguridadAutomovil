@@ -2,11 +2,8 @@
 
 // PROGRAMA DE MENU ADMINISTRADOR
 include "conexion.php";
- 
-
-
-    
-    // Termina codigo php para validaciones.
+     
+    // Termina codigo php para validaciones. listo
 
 ?>
     <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 	Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -21,7 +18,7 @@ include "conexion.php";
               <table width="100%" align=center border=0>
             	   <tr>
                   <td valign="top" align=center width=30%>
-                     <img src="img/invernadero.jpg" border=0 width=350 height=80> 
+                     <img src="img\logo_monitoreo.jpeg" border=0 width=350 height=80> 
              	    </td>
                   <td valign="top" align=center width=60%>
                      <h1><font color=black>Sistema de Seguridad Vehicular </font></h1>
@@ -68,7 +65,7 @@ include "menu_admin.php";
              <font FACE="arial" SIZE=2 color="#000000">Consulta por Cedula: <input type="number" name=id_con value=""></font>
            </td>
            <td align=right >
-             <font FACE="arial" SIZE=2 color="#000000">Consulta por Placa: <input type="text" name=cedula_con value=""></font>
+             <font FACE="arial" SIZE=2 color="#000000">Consulta por Placa: <input type="text" name=placa_con value=""></font>
            </td>
           </tr>
          </table>
@@ -181,29 +178,29 @@ include "menu_admin.php";
 
      <table width=80% border=1 align=center>
 			 <tr>	
-				<td bgcolor="#A8DDA8" align=center> 
-				  <font FACE="arial" SIZE=2 color="#004400"> <b>Nombre Completo</b></font>  
+				<td bgcolor="#006699" align=center> 
+				  <font FACE="arial" SIZE=2 color="#FFFFFF"> <b>Nombre Completo</b></font>  
 				</td>	
-				<td bgcolor="#A8DDA8" align=center> 
-				  <font FACE="arial" SIZE=2 color="#004400"> <b>C&eacute;dula</b></font>  
+				<td bgcolor="#006699" align=center> 
+				  <font FACE="arial" SIZE=2 color="#FFFFFF"> <b>C&eacute;dula</b></font>  
 				</td> 	
-				<td bgcolor="#A8DDA8" align=center> 
-				  <font FACE="arial" SIZE=2 color="#004400"> <b>Usuario</b></font>  
+				<td bgcolor="#006699" align=center> 
+				  <font FACE="arial" SIZE=2 color="#FFFFFF"> <b>Usuario</b></font>  
 				</td>
-				<td bgcolor="#A8DDA8" align=center> 
-				  <font FACE="arial" SIZE=2 color="#004400"> <b>Tipo Usuario</b></font>  
+				<td bgcolor="#006699" align=center> 
+				  <font FACE="arial" SIZE=2 color="#FFFFFF"> <b>Tipo Usuario</b></font>  
 				</td>
-				<td bgcolor="#A8DDA8" align=center> 
-				  <font FACE="arial" SIZE=2 color="#004400"> <b>Id Dispositivo</b></font>  
+				<td bgcolor="#006699" align=center> 
+				  <font FACE="arial" SIZE=2 color="#FFFFFF"> <b>Id Dispositivo</b></font>  
 				</td>
-        <td bgcolor="#A8DDA8" align=center> 
-				  <font FACE="arial" SIZE=2 color="#004400"> <b>Placa</b></font>  
+        <td bgcolor="#006699" align=center> 
+				  <font FACE="arial" SIZE=2 color="#FFFFFF"> <b>Placa</b></font>  
 				</td>
-				<td bgcolor="#A8DDA8" align=center> 
-				  <font FACE="arial" SIZE=2 color="#004400"> <b>Activo (S/N)</b></font>  
+				<td bgcolor="#006699" align=center> 
+				  <font FACE="arial" SIZE=2 color="#FFFFFF"> <b>Activo (S/N)</b></font>  
 				</td>
-   	            <td bgcolor="#A8DDA8" align=center> 
-				  <font FACE="arial" SIZE=2 color="#004400"> <b>Modificar</b></font>  
+   	            <td bgcolor="#006699" align=center> 
+				  <font FACE="arial" SIZE=2 color="#FFFFFF"> <b>Modificar</b></font>  
 				</td>
 			</tr>
 				  
@@ -212,34 +209,34 @@ include "menu_admin.php";
 		     if ((isset($_POST["enviado"])))
          {
            $id_con = $_POST["id_con"];
-           $cedula_con = $_POST["cedula_con"];
+           $placa_con = $_POST["placa_con"];
            $estado = $_POST["estado"];
            $sql1 = "SELECT * from usuarios order by nombre_completo";
-           if (($id_con == "") and ($cedula_con == ""))
+           if (($id_con == "") and ($placa_con == ""))
              {
               if ($estado != "2")
-                $sql1 = "SELECT * from usuarios where activo='$estado' order by nombre_completo";
+                $sql1 = "SELECT * from usuarios where estado='$estado' order by nombre_completo";
              }
-           if (($id_con != "") and ($cedula_con == ""))
+           if (($id_con != "") and ($placa_con == ""))
              {
               if ($estado == "2")
                 $sql1 = "SELECT * from usuarios where cedula='$id_con'";
               else
                 $sql1 = "SELECT * from usuarios where cedula='$id_con' and estado='$estado'";
              }
-           if (($id_con == "") and ($cedula_con != ""))
+           if (($id_con == "") and ($placa_con != ""))
              {
               if ($estado == "2")
-                $sql1 = "SELECT * from usuarios where nombre_completo LIKE '%$cedula_con%' order by nombre_completo";
+                $sql1 = "SELECT * from usuarios where id_veh LIKE '%$placa_con%' order by nombre_completo";
               else
-                $sql1 = "SELECT * from usuarios where nombre_completo LIKE '%$cedula_con%' and estado='$estado' order by nombre_completo";
+                $sql1 = "SELECT * from usuarios where id_veh LIKE '%$placa_con%' and estado='$estado' order by nombre_completo";
               }
-           if (($id_con != "") and ($cedula_con != ""))
+           if (($id_con != "") and ($placa_con != ""))
              {
               if ($estado == "2")
-                 $sql1 = "SELECT * from usuarios where nombre_completo LIKE '%$cedula_conn%' and cedula='$id_con'";
+                 $sql1 = "SELECT * from usuarios where id_veh LIKE '%$placa_con%' and cedula='$id_con'";
               else
-                $sql1 = "SELECT * from usuarios where nombre_completo LIKE '%$cedula_conn%' and cedula='$id_con' and estado='$estado'";
+                $sql1 = "SELECT * from usuarios where id_veh LIKE '%$placa_con%' and cedula='$id_con' and estado='$estado'";
              }      
           }
          else
