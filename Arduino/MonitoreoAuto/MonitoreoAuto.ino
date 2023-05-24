@@ -134,93 +134,97 @@ void loop() {
     }
   }
   //====================================================================================
-  gpsDataRead = false;
-  while (Serial2.available() > 0 && !gpsDataRead) {
-    if (gps.encode(Serial2.read())) {
+  if(t == 1) {
+   gpsDataRead = false;
+    while (Serial2.available() > 0 && !gpsDataRead) {
+      if (gps.encode(Serial2.read())) {
         latitud = gps.location.lat();
         longitud = gps.location.lng();
         displayInfo();
         gpsDataRead = true;
-    }
-  }
-  
-  if (millis() > 5000 && gps.charsProcessed() < 10) {
-    Serial.println(F("No GPS detected: check wiring."));
-    while (true);
-  }
-
-  //Obtenemos las corriente promedio de 500 muestras
-  
-  float lectura = analogRead(analogInPin);
-  float voltaje = (lectura * Vcc) / 4095.0; // Convertir la lectura del ADC a voltios
-  Serial.print("Voltaje: ");
-  Serial.print(voltaje,3);
-  Serial.println(" V");
-  //delay(500); // Esperar 0.5 segundoS antes de volver a leer el sensor
-
-  
-
-  //DETERMINAR EL ESTADO DEL VEHICULO (ENCENDIDO O APAGADO)
-  if(voltaje<1.51){
-    h = "Apagado";
-    Serial.println("Vehiculo apagado");
-  }else{
-    h = "Encendido";
-    Serial.println("Vehiculo encendido");
-  }
-  
-  
-  if ( currentMillis - previousMillis > watchdog ) {
-    previousMillis = currentMillis;
-    WiFiClient client;
-  
-    if (!client.connect(host, port)) {
-      Serial.println("Conexión falló...");
-      digitalWrite(gpio18_pin, HIGH);
-      //digitalWrite(gpio5_pin, HIGH);
-      //t = 0;
-      //Serial.print("Dispositivo inactivo = ");
-      return;
-    }
-    digitalWrite(gpio18_pin, LOW);
-    //digitalWrite(gpio5_pin, LOW);
-    //t = 1;
-    //Serial.print("Dispositivo activo = ");
-    
-    String url = "/programasSERVIDOR_php/proceso_eventos/programa1.php?estado_vehiculo=";
-    url += h;
-    url += "&estado_dispositivo=";
-    url += t;
-    url += "&idVeh=";
-    url += idVeh;
-    url += "&latitud=";
-    url += latitud;
-    url += "&longitud=";
-    url += longitud;
-    url += "&idDis=";
-    url += idDis;
-    
-    // Envío de la solicitud al Servidor
-    client.print(String("POST ") + url + " HTTP/1.1\r\n" +
-               "Host: " + host + "\r\n" + 
-               "Connection: close\r\n\r\n");
-    unsigned long timeout = millis();
-    while (client.available() == 0) {
-      if (millis() - timeout > 5000) {
-        Serial.println(">>> Superado tiempo de espera!");
-        client.stop();
-        return;
       }
     }
   
-    // Lee respuesta del servidor
-    while(client.available()){
-      line = client.readStringUntil('\r');
-      Serial.print(line);
+   if (millis() > 5000 && gps.charsProcessed() < 10) {
+     Serial.println(F("No GPS detected: check wiring."));
+     while (true);
     }
-     Serial.println("Dato ENVIADO");
-     delay(4000);
 
+   //Obtenemos las corriente promedio de 500 muestras
+  
+   float lectura = analogRead(analogInPin);
+   float voltaje = (lectura * Vcc) / 4095.0; // Convertir la lectura del ADC a voltios
+   Serial.print("Voltaje: ");
+   Serial.print(voltaje,3);
+   Serial.println(" V");
+   //delay(500); // Esperar 0.5 segundoS antes de volver a leer el sensor
+
+  
+
+   //DETERMINAR EL ESTADO DEL VEHICULO (ENCENDIDO O APAGADO)
+   if(voltaje<1.51){
+     h = "Apagado";
+     Serial.println("Vehiculo apagado");
+    }else{
+     h = "Encendido";
+     Serial.println("Vehiculo encendido");
+    }
+  
+  
+   if ( currentMillis - previousMillis > watchdog ) {
+     previousMillis = currentMillis;
+     WiFiClient client;
+  
+     if (!client.connect(host, port)) {
+       Serial.println("Conexión falló...");
+       digitalWrite(gpio18_pin, HIGH);
+       //digitalWrite(gpio5_pin, HIGH);
+       //t = 0;
+       //Serial.print("Dispositivo inactivo = ");
+       return;
+      }
+     digitalWrite(gpio18_pin, LOW);
+     //digitalWrite(gpio5_pin, LOW);
+     //t = 1;
+     //Serial.print("Dispositivo activo = ");
+    
+     String url = "/programasSERVIDOR_php/proceso_eventos/programa1.php?estado_vehiculo=";
+     url += h;
+     url += "&estado_dispositivo=";
+     url += t;
+     url += "&idVeh=";
+     url += idVeh;
+     url += "&latitud=";
+     url += latitud;
+     url += "&longitud=";
+     url += longitud;
+     url += "&idDis=";
+     url += idDis;
+    
+     // Envío de la solicitud al Servidor
+     client.print(String("POST ") + url + " HTTP/1.1\r\n" +
+               "Host: " + host + "\r\n" + 
+               "Connection: close\r\n\r\n");
+     unsigned long timeout = millis();
+     while (client.available() == 0) {
+       if (millis() - timeout > 5000) {
+         Serial.println(">>> Superado tiempo de espera!");
+         client.stop();
+         return;
+        }
+      } 
+  
+     // Lee respuesta del servidor
+     while(client.available()){
+       line = client.readStringUntil('\r');
+       Serial.print(line);
+      }
+      Serial.println("Dato ENVIADO");
+      delay(4000);
+
+    }
+  }else{
+    Serial.println("DISPOSITIVO INACTIVO: NO SE ENVIAN DATOS...");
   }
 }
 
