@@ -65,8 +65,9 @@ void setup() {
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
+    digitalWrite(gpio18_pin, HIGH); //NO HAY CONEXION CON EL SISTEMA
   }
-
+  digitalWrite(gpio18_pin, LOW);
  
   Serial.println("");
   Serial.println("WiFi conectado");  
@@ -129,12 +130,16 @@ void loop() {
       else{
        Serial.print("Error sending POST, code: ");
        Serial.println(response_code);
+       digitalWrite(gpio18_pin, HIGH); //NO HAY CONEXION CON EL SISTEMA
       }
+      digitalWrite(gpio18_pin, LOW);
       http.end();                                                                 //End the connection
     }//END of WIFI connected
     else{
       Serial.println("WIFI connection error");
+      digitalWrite(gpio18_pin, HIGH); //NO HAY CONEXION CON EL SISTEMA
     }
+    digitalWrite(gpio18_pin, LOW);
   }
   
   //====================================================================================
@@ -169,7 +174,7 @@ void loop() {
   
 
    //DETERMINAR EL ESTADO DEL VEHICULO (ENCENDIDO O APAGADO)
-   if(voltaje<1.53){
+   if(voltaje<1.8){
      h = "Apagado";
      Serial.println("Vehiculo apagado");
     }else{
@@ -189,7 +194,7 @@ void loop() {
   
      if (!client.connect(host, port)) {
        Serial.println("Conexión falló...");
-       digitalWrite(gpio18_pin, HIGH);
+       digitalWrite(gpio18_pin, HIGH); //NO HAY CONEXION CON EL SISTEMA
        return;
       }
      digitalWrite(gpio18_pin, LOW);
