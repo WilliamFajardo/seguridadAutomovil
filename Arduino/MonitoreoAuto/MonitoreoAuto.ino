@@ -31,6 +31,8 @@ float ACSoffset = 1.65; // Offset del sensor ACS712 (valor en  a corriente 0)
 float voltaje = 0; // Valor de voltaje leído en el puerto Vp
 unsigned long previousMillis = millis(); 
 float Amps = 0; // Valor de corriente calculado en amperios
+float latitudTemp = 0; 
+float longitudTemp = 0;
 float latitud = 0;
 float longitud = 0;
 const float Vcc = 3.3;
@@ -112,6 +114,7 @@ void loop() {
           if(response_body == "LED_is_off"){
             t = 0;
             digitalWrite(LED, HIGH);
+            Serial.println("NO SE ENVIAN DATOS DISPOSITIVO INACTIVO"); 
           }
           //If the received data is LED_is_on, we set HIGH the LED pin
           else if(response_body == "LED_is_on"){
@@ -133,6 +136,7 @@ void loop() {
       Serial.println("WIFI connection error");
     }
   }
+  
   //====================================================================================
   if(t == 1) {
    gpsDataRead = false;
@@ -144,7 +148,10 @@ void loop() {
         gpsDataRead = true;
       }
     }
-  
+    
+    latitudTemp = latitud;
+    longitudTemp = longitud;
+
    if (millis() > 5000 && gps.charsProcessed() < 10) {
      Serial.println(F("No GPS detected: check wiring."));
      while (true);
@@ -162,11 +169,16 @@ void loop() {
   
 
    //DETERMINAR EL ESTADO DEL VEHICULO (ENCENDIDO O APAGADO)
-   if(voltaje<1.51){
+   if(voltaje<1.53){
      h = "Apagado";
      Serial.println("Vehiculo apagado");
     }else{
-     h = "Encendido";
+      if ((latitudTemp != latitud) && (longitudTemp != longitud)){
+        h = "Encendido_en_movimiento";
+      }else{
+       h = "Encendido_detenido";
+      }
+     
      Serial.println("Vehiculo encendido");
     }
   
@@ -178,15 +190,9 @@ void loop() {
      if (!client.connect(host, port)) {
        Serial.println("Conexión falló...");
        digitalWrite(gpio18_pin, HIGH);
-       //digitalWrite(gpio5_pin, HIGH);
-       //t = 0;
-       //Serial.print("Dispositivo inactivo = ");
        return;
       }
      digitalWrite(gpio18_pin, LOW);
-     //digitalWrite(gpio5_pin, LOW);
-     //t = 1;
-     //Serial.print("Dispositivo activo = ");
     
      String url = "/programasSERVIDOR_php/proceso_eventos/programa1.php?estado_vehiculo=";
      url += h;
