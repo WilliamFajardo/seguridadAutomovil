@@ -329,6 +329,11 @@ else
      
      <div id="navigation">
     <ul>
+        <li>
+        <form method=POST action="inicial_propietario.php">
+         <input style="background-color: #CACFD2" type=submit color="#FFFFFF" value="Atras" name="Atras">
+        </form>
+      </li>
       <li><a href="#"></a></li>
       <li><a href="#"></a></li>
       <li><a href="#"></a></li>
